@@ -1,0 +1,328 @@
+# add organizational units
+DN: OU=COMPANY,dc=spring-ldap,dc=com
+OU: COMPANY
+objectClass: top
+objectClass: organizationalUnit
+
+DN: OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+OU: Russia
+objectClass: top
+objectClass: organizationalUnit
+
+DN: OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+OU: Moscow
+objectClass: top
+objectClass: organizationalUnit
+
+DN: OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+OU: Users
+objectClass: top
+objectClass: organizationalUnit
+
+DN: OU=Groups,dc=spring-ldap,dc=com
+OU: Groups
+objectClass: top
+objectClass: organizationalUnit
+
+DN: OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
+OU: app_users_group
+objectClass: top
+objectClass: organizationalUnit
+
+# user groups
+DN: CN=first_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
+objectClass: top
+objectClass: posixGroup
+gidnumber: 500
+CN: first_organization_users
+
+DN: CN=second_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
+objectClass: top
+objectClass: posixGroup
+gidnumber: 501
+CN: second_organization_users
+
+# добавляем пользователей в OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+DN: CN=Anton Kolchin,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+CN: Anton Kolchin
+CanonicalName: spring-ldap.com/COMPANY/Russia/Moscow/Users/Anton Kolchin
+ObjectGUID: 5f68ad78-3b95-4b9a-a45f-483c25139a4d
+UserPrincipalName: Anton.Kolchin@spring-ldap.com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: user
+#
+DisplayName: Anton Kolchin
+Name: Anton Kolchin
+GivenName: Anton
+SN: Kolchin
+OtherName: Kolchin Anton
+Initials: A.K.
+telephoneNumber: +7 495 888 88 88
+HomePhone: 333 33 33
+MobilePhone: 8 800 3000 600
+#
+Country: Russia
+State: Moscow
+City: Moscow
+StreetAddress: Moscow prospect, 129
+PostalCode: 999999
+#
+Company: The Best Company
+Organization: Head Organization
+Division: Home division
+Department: IT
+Office: Home office
+Manager: cn=Anton Kolchin,ou=Users,ou=Moscow,ou=Russia,ou=COMPANY,dc=spring-ldap,dc=com
+EmployeeID: 777
+EmployeeNumber: 666
+mail: Anton.Kolchin@spring-ldap.net
+mailNickname: Anton.Kolchin
+SamAccountName: Anton.Kolchin
+OfficePhone: +7 495 888 88 88
+ipPhone: 1178
+Title: Chief Expert, Business Analyst
+Enabled: True
+#
+MemberOf: CN=first_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
+MemberOf: CN=second_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
+
+DN: CN=Andrey Motorin,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+CN: Andrey Motorin
+CanonicalName: spring-ldap.com/COMPANY/Russia/Moscow/Users/Andrey Motorin
+ObjectGUID: f85a0408-3d8a-4694-9dea-22ea838dc45d
+UserPrincipalName: Andrey.Motorin@spring-ldap.com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: user
+#
+DisplayName: Andrey Motorin
+Name: Andrey Motorin
+GivenName: Andrey
+SN: Motorin
+OtherName: Motorin Andrey
+Initials: A.M.
+telephoneNumber: +7 495 888 88 88
+HomePhone: 333 33 33
+MobilePhone: 8 800 3000 600
+#
+Country: Russia
+State: Moscow
+City: Moscow
+StreetAddress: Moscow prospect, 129
+PostalCode: 999999
+#
+Company: The Best Company
+Organization: Head Organization
+Division: Home division
+Department: IT
+Office: Home office
+Manager: cn=Anton Kolchin,ou=Users,ou=Moscow,ou=Russia,ou=COMPANY,dc=spring-ldap,dc=com
+EmployeeID: 777
+EmployeeNumber: 666
+mail: Andrey.Motorin@spring-ldap.net
+mailNickname: Andrey.Motorin
+SamAccountName: Andrey.Motorin
+OfficePhone: +7 495 888 88 88
+ipPhone: 1178
+Title: Chief Expert, Business Analyst
+Enabled: True
+#
+MemberOf: CN=first_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
+MemberOf: CN=second_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
+
+DN: CN=Ivan Ivanov,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+CN: Ivan Ivanov
+CanonicalName: spring-ldap.com/COMPANY/Russia/Moscow/Users/Ivan Ivanov
+ObjectGUID: a0426527-b84c-4c8f-9688-d36a8ce32971
+UserPrincipalName: Ivan.Ivanov@spring-ldap.com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: user
+#
+DisplayName: Ivan Ivanov
+Name: Ivan Ivanov
+GivenName: Ivan
+SN: Ivanov
+OtherName: Ivanov Ivan
+Initials: I.I.
+telephoneNumber: +7 495 888 88 88
+HomePhone: 333 33 33
+MobilePhone: 8 800 3000 600
+#
+Country: Russia
+State: Moscow
+City: Moscow
+StreetAddress: Moscow prospect, 129
+PostalCode: 999999
+#
+Company: The Best Company
+Organization: Head Organization
+Division: Home division
+Department: IT
+Office: Home office
+Manager: CN=Andrey Motorin,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+EmployeeID: 777
+EmployeeNumber: 666
+mail: Ivan.Ivanov@spring-ldap.net
+mailNickname: Ivan.Ivanov
+SamAccountName: Ivan.Ivanov
+OfficePhone: +7 495 888 88 88
+ipPhone: 1178
+Title: Chief Expert, Business Analyst
+Enabled: True
+#
+MemberOf: CN=first_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
+
+DN: CN=Petr Petrov,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+CN: Petr Petrov
+CanonicalName: spring-ldap.com/COMPANY/Russia/Moscow/Users/Petr Petrov
+ObjectGUID: 94f5dccd-bf34-4791-a43d-f88b5b51868f
+UserPrincipalName: Petr.Petrov@spring-ldap.com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: user
+#
+DisplayName: Petr Petrov
+Name: Petr Petrov
+GivenName: Petr
+SN: Petrov
+OtherName: Petrov Petr
+Initials: P.P.
+telephoneNumber: +7 495 888 88 88
+HomePhone: 333 33 33
+MobilePhone: 8 800 3000 600
+#
+Country: Russia
+State: Moscow
+City: Moscow
+StreetAddress: Moscow prospect, 129
+PostalCode: 999999
+#
+Company: The Best Company
+Organization: Head Organization
+Division: Home division
+Department: IT
+Office: Home office
+Manager: CN=Andrey Motorin,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+EmployeeID: 777
+EmployeeNumber: 666
+mail: Petr.Petrov@spring-ldap.net
+mailNickname: Petr.Petrov
+SamAccountName: Petr.Petrov
+OfficePhone: +7 495 888 88 88
+ipPhone: 1178
+Title: Chief Expert, Business Analyst
+Enabled: True
+#
+MemberOf: CN=second_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
+
+DN: CN=Fedor Fedorov,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+CN: Fedor Fedorov
+CanonicalName: spring-ldap.com/COMPANY/Russia/Moscow/Users/Fedor Fedorov
+ObjectGUID: 286b14f5-96bf-4716-b376-2085ece2b183
+UserPrincipalName: Fedor.Fedorov@spring-ldap.com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: user
+#
+DisplayName: Fedor Fedorov
+Name: Fedor Fedorov
+GivenName: Fedor
+SN: Fedorov
+OtherName: Fedorov Fedor
+Initials: F.F.
+telephoneNumber: +7 495 888 88 88
+HomePhone: 333 33 33
+MobilePhone: 8 800 3000 600
+#
+Country: Russia
+State: Moscow
+City: Moscow
+StreetAddress: Moscow prospect, 129
+PostalCode: 999999
+#
+Company: The Best Company
+Organization: Head Organization
+Division: Home division
+Department: IT
+Office: Home office
+Manager: CN=Andrey Motorin,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+EmployeeID: 777
+EmployeeNumber: 666
+mail: Fedor.Fedorov@spring-ldap.net
+mailNickname: Fedor.Fedorov
+SamAccountName: Fedor.Fedorov
+OfficePhone: +7 495 888 88 88
+ipPhone: 1178
+Title: Chief Expert, Business Analyst
+Enabled: True
+#
+MemberOf: CN=second_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
+
+#add organizationalUnit Terminated
+DN: OU=Service,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+OU: Service
+objectClass: top
+objectClass: organizationalUnit
+
+DN: OU=Terminated,OU=Service,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+OU: Terminated
+objectClass: top
+objectClass: organizationalUnit
+
+# add user to OU=Terminated,OU=Service,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+DN: CN=John Dow,OU=Terminated,OU=Service,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+CN: John Dow
+CanonicalName: spring-ldap.com/COMPANY/Russia/Moscow/Service/Terminated/John Dow
+ObjectGUID: b33c8d6b-0578-49e3-bd7e-71ffa5c7cab1
+UserPrincipalName: John.Dow@spring-ldap.com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: user
+#
+DisplayName: John Dow
+Name: John Dow
+GivenName: John
+SN: Dow
+OtherName: Dow John
+Initials: J.D.
+telephoneNumber: +7 495 888 88 88
+HomePhone: 333 33 33
+MobilePhone: 8 800 3000 600
+#
+Country: Russia
+State: Moscow
+City: Moscow
+StreetAddress: Moscow prospect, 129
+PostalCode: 999999
+#
+Company: The Best Company
+Organization: Head Organization
+Division: Home division
+Department: IT
+Office: Home office
+Manager: cn=Anton Kolchin,ou=Users,ou=Moscow,ou=Russia,ou=COMPANY,dc=spring-ldap,dc=com
+EmployeeID: 123456
+EmployeeNumber: 654321
+mail: John.Dow@spring-ldap.net
+mailNickname: John.Dow
+SamAccountName: John.Dow
+OfficePhone: +7 495 888 88 88
+ipPhone: 1226
+Title: Engineer
+Enabled: False
+#
+MemberOf: CN=second_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com

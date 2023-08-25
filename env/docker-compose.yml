@@ -1,0 +1,58 @@
+x-service-template: &service-template
+  networks:
+    - spring-ldap-network
+
+services:
+  postgres:
+    <<: *service-template
+    image: postgres:14.5
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5435:5432
+    volumes:
+      - ./postgresql/data:/var/lib/postgresql/data
+
+  open-ldap:
+    <<: *service-template
+    image: osixia/openldap:latest
+    container_name: open-ldap
+    hostname: open-ldap
+    ports:
+      - "5389:389"
+    command: --copy-service
+    volumes:
+      - ../src/main/resources/ldap/ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom
+      - ../src/main/resources/ldap/default.schema:/container/service/slapd/assets/config/bootstrap/schema/default.schema
+    #        - ./openldap/certificates:/container/service/slapd/assets/certs
+    #        - ./openldap/slapd/database:/var/lib/ldap
+    #        - ./openldap/slapd/config:/etc/ldap/slapd.d
+    environment:
+      LDAP_LOG_LEVEL: "256"
+      LDAP_ORGANISATION: "spring-ldap"
+      LDAP_DOMAIN: "spring-ldap.com"
+      LDAP_BASE_DN: ""
+      LDAP_ADMIN_USERNAME: "admin"
+      LDAP_ADMIN_PASSWORD: "password"
+      LDAP_CONFIG_PASSWORD: "config_pass"
+      LDAP_RFC2307BIS_SCHEMA: "false"
+      LDAP_TLS_CRT_FILENAME: "server.crt"
+      LDAP_TLS_KEY_FILENAME: "server.key"
+      LDAP_TLS_CA_CRT_FILENAME: "spring-ldap.com.ca.crt"
+
+  php-ldap-admin:
+    <<: *service-template
+    image: osixia/phpldapadmin:latest
+    container_name: php_ldap_admin
+    hostname: php-ldap-admin
+    ports:
+      - "8082:80"
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: open-ldap
+      PHPLDAPADMIN_HTTPS: false
+
+networks:
+  spring-ldap-network:
