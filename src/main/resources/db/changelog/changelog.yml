@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: db/migration/1_create_tables.sql
