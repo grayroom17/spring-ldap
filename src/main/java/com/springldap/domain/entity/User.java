@@ -87,8 +87,6 @@ public class User {
 
     String title;
 
-    String userAccountControl;
-
     String enabled;
 
 }

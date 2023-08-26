@@ -44,7 +44,6 @@ public class UserGetDto {
     String officePhone;
     String ipPhone;
     String title;
-    String userAccountControl;
     String enabled;
 
 }
