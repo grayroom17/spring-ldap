@@ -1,7 +1,7 @@
 package com.springldap.rest.controller;
 
 import com.springldap.rest.dto.UserGetDto;
-import com.springldap.service.LdapService;
+import com.springldap.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -17,11 +17,16 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController {
 
-    LdapService ldapService;
+    UserService userService;
 
     @GetMapping
     List<UserGetDto> findAll() {
-        return ldapService.findAll();
+        return userService.findAll();
+    }
+
+    @GetMapping("/sync-with-ad")
+    void syncWithAD() {
+        userService.syncWithAD();
     }
 
 }
