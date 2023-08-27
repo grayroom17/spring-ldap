@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static java.util.function.Function.identity;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
@@ -31,6 +33,18 @@ public class UserService {
 
     public List<UserGetDto> findAll() {
         return userMapper.toGetDtoList(userRepository.findAll());
+    }
+
+    public UserGetDto findById(Long id) {
+        return userRepository.findById(id)
+                .map(userMapper::toGetDto)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND));
+    }
+
+    public UserGetDto findByGuid(String guid) {
+        return userRepository.findByGuid(UUID.fromString(guid))
+                .map(userMapper::toGetDto)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND));
     }
 
     @Transactional
@@ -61,5 +75,4 @@ public class UserService {
 
         userRepository.saveAll(userMapper.fromLdapUserList(newLdapUsers));
     }
-
 }
