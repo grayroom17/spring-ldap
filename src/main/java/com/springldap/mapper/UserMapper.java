@@ -18,7 +18,7 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     void updateFromLdapUser(@MappingTarget User target, LdapUser source);
 
-    default String map(Name name) {
+    default String mapDistinguishedName(Name name) {
         return name.toString();
     }
 
