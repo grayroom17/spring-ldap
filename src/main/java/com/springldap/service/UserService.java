@@ -3,7 +3,6 @@ package com.springldap.service;
 import com.springldap.domain.entity.LdapUser;
 import com.springldap.domain.entity.User;
 import com.springldap.mapper.UserMapper;
-import com.springldap.repository.LdapCustomRepository;
 import com.springldap.repository.UserRepository;
 import com.springldap.rest.dto.UserGetDto;
 import lombok.AccessLevel;
@@ -27,7 +26,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Service
 public class UserService {
 
-    LdapCustomRepository ldapRepository;
+    LdapService ldapService;
     UserRepository userRepository;
     UserMapper userMapper;
 
@@ -49,7 +48,7 @@ public class UserService {
 
     @Transactional
     public void syncWithAD() {
-        List<LdapUser> ldapUsers = ldapRepository.findAll();
+        List<LdapUser> ldapUsers = ldapService.findAll();
         List<UUID> ldapUserGuids = ldapUsers.stream()
                 .filter(Objects::nonNull)
                 .map(ldapUser -> UUID.fromString(ldapUser.getGuid()))
