@@ -5,9 +5,7 @@ import com.springldap.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +20,16 @@ public class UserController {
     @GetMapping
     List<UserGetDto> findAll() {
         return userService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    UserGetDto findById(@PathVariable("id") Long id) {
+        return userService.findById(id);
+    }
+
+    @GetMapping("/find-by-guid/{guid}")
+    UserGetDto findByGuid(@PathVariable("guid") String guid) {
+        return userService.findByGuid(guid);
     }
 
     @GetMapping("/sync-with-ad")

@@ -11,7 +11,6 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    @Mapping(target = "id", ignore = true)
     UserGetDto toGetDto(User user);
 
     List<UserGetDto> toGetDtoList(List<User> users);
