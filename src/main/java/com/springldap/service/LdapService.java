@@ -31,4 +31,8 @@ public class LdapService {
         return ldapUserMapper.toGetDtoList(ldapRepository.getAllUsers());
     }
 
+    public List<UserGetDto> getAllLdapUsersBySureName(String sureName) {
+        return ldapUserMapper.toGetDtoList(ldapRepository.getAllUsersBySureName(sureName));
+    }
+
 }

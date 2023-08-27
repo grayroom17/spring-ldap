@@ -10,4 +10,6 @@ public interface LdapTemplateRepository {
 
     List<LdapUser> getAllUsers();
 
+    List<LdapUser> getAllUsersBySureName(String sureName);
+
 }
