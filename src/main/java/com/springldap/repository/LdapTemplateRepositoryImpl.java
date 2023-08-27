@@ -16,20 +16,30 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
 @RequiredArgsConstructor
 public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
 
+    public static final String OBJECT_CLASS = "objectClass";
+
     LdapTemplate ldapTemplate;
     LdapUserMapper ldapUserMapper;
 
     @Override
     public List<String> getAllUserNames() {
         return ldapTemplate.search(query().
-                        where("objectClass").is("user"),
+                        where(OBJECT_CLASS).is("user"),
                 (AttributesMapper<String>) attributes -> attributes.get("givenName").get().toString());
     }
 
     @Override
     public List<LdapUser> getAllUsers() {
         return ldapTemplate.search(query()
-                        .where("objectClass").is("user"),
+                        .where(OBJECT_CLASS).is("user"),
+                ldapUserMapper);
+    }
+
+    @Override
+    public List<LdapUser> getAllUsersBySureName(String sureName) {
+        return ldapTemplate.search(query()
+                        .where(OBJECT_CLASS).is("user")
+                        .and("sn").is(sureName),
                 ldapUserMapper);
     }
 
