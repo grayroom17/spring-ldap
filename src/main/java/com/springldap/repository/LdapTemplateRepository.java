@@ -3,6 +3,7 @@ package com.springldap.repository;
 import com.springldap.domain.entity.LdapUser;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LdapTemplateRepository {
 
@@ -11,5 +12,7 @@ public interface LdapTemplateRepository {
     List<LdapUser> getAllUsers();
 
     List<LdapUser> getAllUsersBySureName(String sureName);
+
+    Optional<LdapUser> lookupByDn(String dn);
 
 }

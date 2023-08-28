@@ -7,7 +7,9 @@ import com.springldap.rest.dto.UserGetDto;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -33,6 +35,12 @@ public class LdapService {
 
     public List<UserGetDto> getAllLdapUsersBySureName(String sureName) {
         return ldapUserMapper.toGetDtoList(ldapRepository.getAllUsersBySureName(sureName));
+    }
+
+    public UserGetDto lookupByDn(String dn) {
+        LdapUser ldapUser = ldapRepository.lookupByDn(dn)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return ldapUserMapper.toGetDto(ldapUser);
     }
 
 }
