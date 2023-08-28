@@ -3,6 +3,7 @@ package com.springldap.service;
 import com.springldap.domain.entity.LdapUser;
 import com.springldap.mapper.LdapUserMapper;
 import com.springldap.repository.LdapCustomRepository;
+import com.springldap.rest.dto.UserCreateDto;
 import com.springldap.rest.dto.UserGetDto;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,10 @@ public class LdapService {
         LdapUser ldapUser = ldapRepository.lookupByDn(dn)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return ldapUserMapper.toGetDto(ldapUser);
+    }
+
+    public void create(UserCreateDto dto) {
+        ldapRepository.create(dto);
     }
 
 }
