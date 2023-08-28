@@ -2,6 +2,7 @@ package com.springldap.repository;
 
 import com.springldap.domain.entity.LdapUser;
 import com.springldap.mapper.LdapUserMapper;
+import com.springldap.rest.dto.AttributeDto;
 import com.springldap.rest.dto.UserCreateDto;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +15,7 @@ import org.springframework.ldap.support.LdapNameBuilder;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.naming.Name;
-import javax.naming.directory.Attributes;
-import javax.naming.directory.BasicAttribute;
-import javax.naming.directory.BasicAttributes;
+import javax.naming.directory.*;
 import javax.naming.ldap.LdapName;
 import java.util.List;
 import java.util.Optional;
@@ -81,6 +80,20 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         ldapTemplate.unbind(ldapName);
     }
 
+    @Override
+    public void rebind(String dn, UserCreateDto dto) {
+        LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
+        ldapTemplate.rebind(ldapName, null, buildAttributes(dto));
+    }
+
+    @Override
+    public void updateAttribute(String dn, AttributeDto attribute) {
+        LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
+        Attribute newAttribute = new BasicAttribute(attribute.getAttributeName(), attribute.getAttributeValue());
+        ModificationItem modificationItem = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, newAttribute);
+        ldapTemplate.modifyAttributes(ldapName, new ModificationItem[]{modificationItem});
+    }
+
     private Name buildDn(UserCreateDto dto) {
         return LdapNameBuilder.newInstance("")
                 .add("cn", dto.getCommonName())
@@ -94,7 +107,38 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         objectClass.add("user");
         attrs.put(objectClass);
         attrs.put("cn", dto.getCommonName());
+        attrs.put("canonicalName", dto.getCanonicalName());
+        attrs.put("objectGuid", dto.getGuid());
+        attrs.put("userPrincipalName", dto.getUserPrincipalName());
+        attrs.put("displayName", dto.getDisplayName());
+        attrs.put("Name", dto.getCommonName());
+        attrs.put("GivenName", dto.getCommonName());
         attrs.put("sn", dto.getLastname());
+        attrs.put("OtherName", dto.getOtherName());
+        attrs.put("initials", dto.getInitials());
+        attrs.put("telephoneNumber", dto.getTelephoneNumber());
+        attrs.put("homePhone", dto.getHomePhone());
+        attrs.put("mobilePhone", dto.getMobilePhone());
+        attrs.put("country", dto.getCountry());
+        attrs.put("state", dto.getState());
+        attrs.put("city", dto.getCity());
+        attrs.put("street", dto.getStreet());
+        attrs.put("postalCode", dto.getPostalCode());
+        attrs.put("company", dto.getCompany());
+        attrs.put("organization", dto.getOrganization());
+        attrs.put("division", dto.getDivision());
+        attrs.put("department", dto.getDepartment());
+        attrs.put("office", dto.getOffice());
+        attrs.put("manager", dto.getManager());
+        attrs.put("employeeId", dto.getEmployeeId());
+        attrs.put("employeeNumber", dto.getEmployeeNumber());
+        attrs.put("mail", dto.getMail());
+        attrs.put("mailNickname", dto.getMailNickname());
+        attrs.put("samAccountName", dto.getSamAccountName());
+        attrs.put("officePhone", dto.getOfficePhone());
+        attrs.put("ipPhone", dto.getIpPhone());
+        attrs.put("title", dto.getTitle());
+        attrs.put("enabled", dto.getEnabled());
         return attrs;
     }
 

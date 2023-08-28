@@ -1,5 +1,6 @@
 package com.springldap.rest.controller;
 
+import com.springldap.rest.dto.AttributeDto;
 import com.springldap.rest.dto.UserCreateDto;
 import com.springldap.rest.dto.UserGetDto;
 import com.springldap.service.LdapService;
@@ -46,6 +47,18 @@ public class LdapController {
     @DeleteMapping("/delete-by-dn/{dn}")
     void create(@PathVariable("dn") String dn) {
         ldapService.delete(dn);
+    }
+
+    @PutMapping("/rebind/{dn}")
+    void create(@PathVariable("dn") String dn,
+                @RequestBody UserCreateDto dto) {
+        ldapService.rebind(dn, dto);
+    }
+
+    @PatchMapping("/update-attribute/{dn}")
+    void updateAttribute(@PathVariable("dn") String dn,
+                         @RequestBody AttributeDto attribute) {
+        ldapService.updateAttribute(dn, attribute);
     }
 
 }

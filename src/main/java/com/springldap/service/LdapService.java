@@ -3,6 +3,7 @@ package com.springldap.service;
 import com.springldap.domain.entity.LdapUser;
 import com.springldap.mapper.LdapUserMapper;
 import com.springldap.repository.LdapCustomRepository;
+import com.springldap.rest.dto.AttributeDto;
 import com.springldap.rest.dto.UserCreateDto;
 import com.springldap.rest.dto.UserGetDto;
 import lombok.AccessLevel;
@@ -51,6 +52,14 @@ public class LdapService {
 
     public void delete(String dn) {
         ldapRepository.delete(dn);
+    }
+
+    public void rebind(String dn, UserCreateDto dto) {
+        ldapRepository.rebind(dn, dto);
+    }
+
+    public void updateAttribute(String dn, AttributeDto attribute) {
+        ldapRepository.updateAttribute(dn, attribute);
     }
 
 }
