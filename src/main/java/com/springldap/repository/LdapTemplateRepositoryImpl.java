@@ -5,11 +5,16 @@ import com.springldap.mapper.LdapUserMapper;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.ldap.InvalidNameException;
+import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -41,6 +46,17 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
                         .where(OBJECT_CLASS).is("user")
                         .and("sn").is(sureName),
                 ldapUserMapper);
+    }
+
+    @Override
+    public Optional<LdapUser> lookupByDn(String dn) {
+        try {
+            return Optional.of(ldapTemplate.lookup(dn, ldapUserMapper));
+        } catch (NameNotFoundException e) {
+            return Optional.empty();
+        } catch (InvalidNameException e) {
+            throw new ResponseStatusException(BAD_REQUEST, dn, e);
+        }
     }
 
 }

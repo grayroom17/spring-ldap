@@ -35,4 +35,9 @@ public class LdapController {
         return ldapService.getAllLdapUsersBySureName(sureName);
     }
 
+    @GetMapping("/get-by-dn/{dn}")
+    UserGetDto getByDn(@PathVariable("dn") String dn) {
+        return ldapService.lookupByDn(dn);
+    }
+
 }
