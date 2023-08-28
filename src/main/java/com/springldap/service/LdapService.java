@@ -48,4 +48,9 @@ public class LdapService {
         ldapRepository.create(dto);
     }
 
+
+    public void delete(String dn) {
+        ldapRepository.delete(dn);
+    }
+
 }

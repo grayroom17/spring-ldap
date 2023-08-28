@@ -17,6 +17,7 @@ import javax.naming.Name;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
+import javax.naming.ldap.LdapName;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,6 +73,12 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         Name dn = buildDn(dto);
         Attributes attributes = buildAttributes(dto);
         ldapTemplate.bind(dn, null, attributes);
+    }
+
+    @Override
+    public void delete(String dn) {
+        LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
+        ldapTemplate.unbind(ldapName);
     }
 
     private Name buildDn(UserCreateDto dto) {

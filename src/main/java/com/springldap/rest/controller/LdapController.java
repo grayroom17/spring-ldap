@@ -43,4 +43,9 @@ public class LdapController {
         ldapService.create(dto);
     }
 
+    @DeleteMapping("/delete-by-dn/{dn}")
+    void create(@PathVariable("dn") String dn) {
+        ldapService.delete(dn);
+    }
+
 }
