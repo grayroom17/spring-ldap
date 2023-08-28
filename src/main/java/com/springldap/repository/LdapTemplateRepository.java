@@ -18,4 +18,6 @@ public interface LdapTemplateRepository {
 
     void create(UserCreateDto dto);
 
+    void delete(String dn);
+
 }
