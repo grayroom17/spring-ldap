@@ -32,7 +32,6 @@ spring:
     default-schema: public
     change-log: classpath:db/migration/changelog.yml
 
-
 springdoc:
   swagger-ui:
     enabled: true
