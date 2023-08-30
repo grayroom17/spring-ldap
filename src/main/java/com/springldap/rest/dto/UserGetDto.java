@@ -3,6 +3,8 @@ package com.springldap.rest.dto;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @Builder
@@ -23,7 +25,7 @@ public class UserGetDto {
     String otherName;
     String initials;
     String telephoneNumber;
-    String homePhone;
+    List<String> homePhone;
     String mobilePhone;
     String country;
     String state;

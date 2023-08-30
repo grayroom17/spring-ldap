@@ -1,7 +1,8 @@
 package com.springldap.repository;
 
 import com.springldap.domain.entity.LdapUser;
-import com.springldap.mapper.LdapUserMapper;
+import com.springldap.mapper.LdapUserAttributesMapper;
+import com.springldap.mapper.LdapUserContextMapper;
 import com.springldap.rest.dto.AttributeDto;
 import com.springldap.rest.dto.UserCreateDto;
 import lombok.AccessLevel;
@@ -27,12 +28,11 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
 @RequiredArgsConstructor
 public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
 
-    public static final String BASE_DN = "dc=spring-ldap,dc=com";
-
     public static final String OBJECT_CLASS = "objectClass";
 
     LdapTemplate ldapTemplate;
-    LdapUserMapper ldapUserMapper;
+    LdapUserAttributesMapper attributesMapper;
+    LdapUserContextMapper contextMapper;
 
     @Override
     public List<String> getAllUserNames() {
@@ -45,7 +45,7 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
     public List<LdapUser> getAllUsers() {
         return ldapTemplate.search(query()
                         .where(OBJECT_CLASS).is("user"),
-                ldapUserMapper);
+                attributesMapper);
     }
 
     @Override
@@ -53,13 +53,24 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         return ldapTemplate.search(query()
                         .where(OBJECT_CLASS).is("user")
                         .and("sn").is(sureName),
-                ldapUserMapper);
+                attributesMapper);
     }
 
     @Override
     public Optional<LdapUser> lookupByDn(String dn) {
         try {
-            return Optional.of(ldapTemplate.lookup(dn, ldapUserMapper));
+            return Optional.of(ldapTemplate.lookup(dn, attributesMapper));
+        } catch (NameNotFoundException e) {
+            return Optional.empty();
+        } catch (InvalidNameException e) {
+            throw new ResponseStatusException(BAD_REQUEST, dn, e);
+        }
+    }
+
+    @Override
+    public Optional<LdapUser> lookupByDnWithContextMapper(String dn) {
+        try {
+            return Optional.of(ldapTemplate.lookup(dn, contextMapper));
         } catch (NameNotFoundException e) {
             return Optional.empty();
         } catch (InvalidNameException e) {

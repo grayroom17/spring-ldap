@@ -39,6 +39,11 @@ public class LdapController {
         return ldapService.lookupByDn(dn);
     }
 
+    @GetMapping("/get-by-dn-with-context-mapper/{dn}")
+    UserGetDto getByDnWithContextMapper(@PathVariable("dn") String dn) {
+        return ldapService.lookupByDnWithContextMapper(dn);
+    }
+
     @PostMapping
     void create(@RequestBody UserCreateDto dto) {
         ldapService.create(dto);

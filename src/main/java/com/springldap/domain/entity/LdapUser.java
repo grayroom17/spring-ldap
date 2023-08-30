@@ -6,6 +6,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.ldap.odm.annotations.*;
 
 import javax.naming.Name;
+import java.util.ArrayList;
+import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Accessors(chain = true)
@@ -53,8 +55,9 @@ public class LdapUser {
     @Attribute(name = "telephoneNumber")
     String telephoneNumber;
 
+    @Builder.Default
     @Attribute(name = "HomePhone")
-    String homePhone;
+    List<String> homePhone = new ArrayList<>();
 
     @Attribute(name = "MobilePhone")
     String mobilePhone;

@@ -45,6 +45,12 @@ public class LdapService {
         return ldapUserMapper.toGetDto(ldapUser);
     }
 
+    public UserGetDto lookupByDnWithContextMapper(String dn) {
+        LdapUser ldapUser = ldapRepository.lookupByDnWithContextMapper(dn)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return ldapUserMapper.toGetDto(ldapUser);
+    }
+
     public void create(UserCreateDto dto) {
         ldapRepository.create(dto);
     }
