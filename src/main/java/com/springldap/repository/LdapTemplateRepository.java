@@ -17,6 +17,8 @@ public interface LdapTemplateRepository {
 
     Optional<LdapUser> lookupByDn(String dn);
 
+    Optional<LdapUser> lookupByDnWithContextMapper(String dn);
+
     void create(UserCreateDto dto);
 
     void delete(String dn);
