@@ -29,4 +29,6 @@ public interface LdapTemplateRepository {
 
     void updateAttribute(String dn, AttributeDto attribute);
 
+    void updateWithDirContextOperations(String dn, UserCreateDto dto);
+
 }
