@@ -12,6 +12,7 @@ import org.springframework.ldap.InvalidNameException;
 import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.DirContextAdapter;
+import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.support.LdapNameBuilder;
 import org.springframework.web.server.ResponseStatusException;
@@ -91,7 +92,7 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
         DirContextAdapter ctx = new DirContextAdapter(ldapName);
 
-        populateContext(dto, ctx);
+        mapToContext(dto, ctx);
 
         ldapTemplate.bind(ctx);
     }
@@ -114,6 +115,16 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         Attribute newAttribute = new BasicAttribute(attribute.getAttributeName(), attribute.getAttributeValue());
         ModificationItem modificationItem = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, newAttribute);
         ldapTemplate.modifyAttributes(ldapName, new ModificationItem[]{modificationItem});
+    }
+
+    @Override
+    public void updateWithDirContextOperations(String dn, UserCreateDto dto) {
+        LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
+        DirContextOperations context = ldapTemplate.lookupContext(ldapName);
+
+        mapToContext(dto, context);
+
+        ldapTemplate.modifyAttributes(context);
     }
 
     private Name buildDn(UserCreateDto dto) {
@@ -164,7 +175,7 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         return attrs;
     }
 
-    private static void populateContext(UserCreateDto dto, DirContextAdapter ctx) {
+    private static void mapToContext(UserCreateDto dto, DirContextOperations ctx) {
         ctx.setAttributeValues(OBJECT_CLASS, new String[]{"top", "user"});
         ctx.setAttributeValue("cn", dto.getCommonName());
         ctx.setAttributeValue("canonicalName", dto.getCanonicalName());
