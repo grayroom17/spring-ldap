@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.ldap.InvalidNameException;
 import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.core.AttributesMapper;
+import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.support.LdapNameBuilder;
 import org.springframework.web.server.ResponseStatusException;
@@ -86,6 +87,16 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
     }
 
     @Override
+    public void createWithDirContextAdapter(String dn, UserCreateDto dto) {
+        LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
+        DirContextAdapter ctx = new DirContextAdapter(ldapName);
+
+        populateContext(dto, ctx);
+
+        ldapTemplate.bind(ctx);
+    }
+
+    @Override
     public void delete(String dn) {
         LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
         ldapTemplate.unbind(ldapName);
@@ -151,6 +162,43 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         attrs.put("title", dto.getTitle());
         attrs.put("enabled", dto.getEnabled());
         return attrs;
+    }
+
+    private static void populateContext(UserCreateDto dto, DirContextAdapter ctx) {
+        ctx.setAttributeValues(OBJECT_CLASS, new String[]{"top", "user"});
+        ctx.setAttributeValue("cn", dto.getCommonName());
+        ctx.setAttributeValue("canonicalName", dto.getCanonicalName());
+        ctx.setAttributeValue("objectGuid", dto.getGuid());
+        ctx.setAttributeValue("userPrincipalName", dto.getUserPrincipalName());
+        ctx.setAttributeValue("displayName", dto.getDisplayName());
+        ctx.setAttributeValue("Name", dto.getCommonName());
+        ctx.setAttributeValue("GivenName", dto.getCommonName());
+        ctx.setAttributeValue("sn", dto.getLastname());
+        ctx.setAttributeValue("OtherName", dto.getOtherName());
+        ctx.setAttributeValue("initials", dto.getInitials());
+        ctx.setAttributeValue("telephoneNumber", dto.getTelephoneNumber());
+        ctx.setAttributeValue("homePhone", dto.getHomePhone());
+        ctx.setAttributeValue("mobilePhone", dto.getMobilePhone());
+        ctx.setAttributeValue("country", dto.getCountry());
+        ctx.setAttributeValue("state", dto.getState());
+        ctx.setAttributeValue("city", dto.getCity());
+        ctx.setAttributeValue("street", dto.getStreet());
+        ctx.setAttributeValue("postalCode", dto.getPostalCode());
+        ctx.setAttributeValue("company", dto.getCompany());
+        ctx.setAttributeValue("organization", dto.getOrganization());
+        ctx.setAttributeValue("division", dto.getDivision());
+        ctx.setAttributeValue("department", dto.getDepartment());
+        ctx.setAttributeValue("office", dto.getOffice());
+        ctx.setAttributeValue("manager", dto.getManager());
+        ctx.setAttributeValue("employeeId", dto.getEmployeeId());
+        ctx.setAttributeValue("employeeNumber", dto.getEmployeeNumber());
+        ctx.setAttributeValue("mail", dto.getMail());
+        ctx.setAttributeValue("mailNickname", dto.getMailNickname());
+        ctx.setAttributeValue("samAccountName", dto.getSamAccountName());
+        ctx.setAttributeValue("officePhone", dto.getOfficePhone());
+        ctx.setAttributeValue("ipPhone", dto.getIpPhone());
+        ctx.setAttributeValue("title", dto.getTitle());
+        ctx.setAttributeValue("enabled", dto.getEnabled());
     }
 
 }

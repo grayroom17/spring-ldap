@@ -21,6 +21,8 @@ public interface LdapTemplateRepository {
 
     void create(UserCreateDto dto);
 
+    void createWithDirContextAdapter(String dn, UserCreateDto dto);
+
     void delete(String dn);
 
     void rebind(String dn, UserCreateDto dto);
