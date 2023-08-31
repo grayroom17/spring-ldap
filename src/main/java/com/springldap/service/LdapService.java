@@ -55,6 +55,9 @@ public class LdapService {
         ldapRepository.create(dto);
     }
 
+    public void createWithDirContextAdapter(String dn, UserCreateDto dto) {
+        ldapRepository.createWithDirContextAdapter(dn, dto);
+    }
 
     public void delete(String dn) {
         ldapRepository.delete(dn);

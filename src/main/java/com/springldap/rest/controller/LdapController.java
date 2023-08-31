@@ -49,6 +49,12 @@ public class LdapController {
         ldapService.create(dto);
     }
 
+    @PostMapping("/create-with-dir-context-adapter/{dn}")
+    void createWithDirContextAdapter(@PathVariable("dn") String dn,
+                                     @RequestBody UserCreateDto dto) {
+        ldapService.createWithDirContextAdapter(dn, dto);
+    }
+
     @DeleteMapping("/delete-by-dn/{dn}")
     void create(@PathVariable("dn") String dn) {
         ldapService.delete(dn);
