@@ -3,6 +3,7 @@ package com.springldap.service;
 import com.springldap.domain.entity.LdapUser;
 import com.springldap.mapper.LdapUserMapper;
 import com.springldap.repository.LdapCustomRepository;
+import com.springldap.repository.LdapGroupRepository;
 import com.springldap.rest.dto.AttributeDto;
 import com.springldap.rest.dto.UserCreateDto;
 import com.springldap.rest.dto.UserGetDto;
@@ -21,6 +22,7 @@ import java.util.List;
 public class LdapService {
 
     LdapCustomRepository ldapRepository;
+    LdapGroupRepository ldapGroupRepository;
     LdapUserMapper ldapUserMapper;
 
     public List<LdapUser> findAll() {
@@ -69,6 +71,14 @@ public class LdapService {
 
     public void updateAttribute(String dn, AttributeDto attribute) {
         ldapRepository.updateAttribute(dn, attribute);
+    }
+
+    public void addMemberToGroup(String groupName, String userFullName) {
+        ldapGroupRepository.addMemberToGroup(groupName, userFullName);
+    }
+
+    public void removeMemberFromGroup(String groupName, String userFullName) {
+        ldapGroupRepository.removeMemberFromGroup(groupName, userFullName);
     }
 
 }

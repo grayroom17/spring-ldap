@@ -72,4 +72,16 @@ public class LdapController {
         ldapService.updateAttribute(dn, attribute);
     }
 
+    @PatchMapping(value = "/add-member-to-group")
+    void addMemberToGroup(@RequestParam("groupDn") String groupDn,
+                          @RequestParam("userFullName") String userFullName) {
+        ldapService.addMemberToGroup(groupDn, userFullName);
+    }
+
+    @PatchMapping(value = "/remove-member-from-group")
+    void removeMemberFromGroup(@RequestParam("groupDn") String groupDn,
+                               @RequestParam("userFullName") String userFullName) {
+        ldapService.removeMemberFromGroup(groupDn, userFullName);
+    }
+
 }
