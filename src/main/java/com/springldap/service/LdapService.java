@@ -73,6 +73,10 @@ public class LdapService {
         ldapRepository.updateAttribute(dn, attribute);
     }
 
+    public void updateWithDirContextOperations(String dn, UserCreateDto dto) {
+        ldapRepository.updateWithDirContextOperations(dn, dto);
+    }
+
     public void addMemberToGroup(String groupName, String userFullName) {
         ldapGroupRepository.addMemberToGroup(groupName, userFullName);
     }

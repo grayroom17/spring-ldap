@@ -51,9 +51,9 @@ public class LdapGroupRepository implements BaseLdapNameAware {
                 .add("cn", groupName).build();
     }
 
-    private Name buildPersonDn(String fullname) {
+    private Name buildPersonDn(String fullName) {
         return LdapNameBuilder.newInstance(baseLdapPath)
-                .add("cn", fullname)
+                .add("cn", fullName)
                 .build();
     }
 }

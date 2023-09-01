@@ -87,6 +87,7 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         ldapTemplate.bind(dn, null, attributes);
     }
 
+    //предпочтительный способ создания новой записи
     @Override
     public void createWithDirContextAdapter(String dn, UserCreateDto dto) {
         LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
@@ -117,6 +118,7 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         ldapTemplate.modifyAttributes(ldapName, new ModificationItem[]{modificationItem});
     }
 
+    //предпочтительный способ обновления
     @Override
     public void updateWithDirContextOperations(String dn, UserCreateDto dto) {
         LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
