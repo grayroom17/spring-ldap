@@ -31,16 +31,20 @@ objectClass: organizationalUnit
 
 # user groups
 DN: CN=first_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
-objectClass: top
-objectClass: posixGroup
-gidnumber: 500
 CN: first_organization_users
+member: CN=Anton Kolchin,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+member: CN=Andrey Motorin,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+member: CN=Ivan Ivanov,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+member: CN=Petr Petrov,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+member: CN=Fedor Fedorov,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
+objectClass: top
+objectClass: groupOfNames
 
 DN: CN=second_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
-objectClass: top
-objectClass: posixGroup
-gidnumber: 501
 CN: second_organization_users
+member: cn=John Dow,ou=Terminated,ou=Service,ou=Moscow,ou=Russia,ou=COMPANY,dc=spring-ldap,dc=com
+objectClass: top
+objectClass: groupOfNames
 
 # добавляем пользователей в OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
 DN: CN=Anton Kolchin,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
@@ -87,9 +91,6 @@ OfficePhone: +7 495 888 88 88
 ipPhone: 1178
 Title: Chief Expert, Business Analyst
 Enabled: True
-#
-MemberOf: CN=first_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
-MemberOf: CN=second_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
 
 DN: CN=Andrey Motorin,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
 CN: Andrey Motorin
@@ -133,9 +134,6 @@ OfficePhone: +7 495 888 88 88
 ipPhone: 1178
 Title: Chief Expert, Business Analyst
 Enabled: True
-#
-MemberOf: CN=first_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
-MemberOf: CN=second_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
 
 DN: CN=Ivan Ivanov,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
 CN: Ivan Ivanov
@@ -179,8 +177,6 @@ OfficePhone: +7 495 888 88 88
 ipPhone: 1178
 Title: Chief Expert, Business Analyst
 Enabled: True
-#
-MemberOf: CN=first_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
 
 DN: CN=Petr Petrov,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
 CN: Petr Petrov
@@ -224,8 +220,6 @@ OfficePhone: +7 495 888 88 88
 ipPhone: 1178
 Title: Chief Expert, Business Analyst
 Enabled: True
-#
-MemberOf: CN=second_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
 
 DN: CN=Fedor Fedorov,OU=Users,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
 CN: Fedor Fedorov
@@ -269,8 +263,6 @@ OfficePhone: +7 495 888 88 88
 ipPhone: 1178
 Title: Chief Expert, Business Analyst
 Enabled: True
-#
-MemberOf: CN=second_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com
 
 #add organizationalUnit Terminated
 DN: OU=Service,OU=Moscow,OU=Russia,OU=COMPANY,dc=spring-ldap,dc=com
@@ -326,5 +318,3 @@ OfficePhone: +7 495 888 88 88
 ipPhone: 1226
 Title: Engineer
 Enabled: False
-#
-MemberOf: CN=second_organization_users,OU=app_users_group,OU=Groups,dc=spring-ldap,dc=com

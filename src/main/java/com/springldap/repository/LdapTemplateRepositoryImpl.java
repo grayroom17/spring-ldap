@@ -47,7 +47,7 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
     public List<LdapUser> getAllUsers() {
         return ldapTemplate.search(query()
                         .where(OBJECT_CLASS).is("user"),
-                attributesMapper);
+                contextMapper);
     }
 
     @Override
