@@ -72,6 +72,12 @@ public class LdapController {
         ldapService.updateAttribute(dn, attribute);
     }
 
+    @PutMapping("/update-with-dir-context-operations/{dn}")
+    void updateAttribute(@PathVariable("dn") String dn,
+                         @RequestBody UserCreateDto dto) {
+        ldapService.updateWithDirContextOperations(dn, dto);
+    }
+
     @PatchMapping(value = "/add-member-to-group")
     void addMemberToGroup(@RequestParam("groupDn") String groupDn,
                           @RequestParam("userFullName") String userFullName) {
