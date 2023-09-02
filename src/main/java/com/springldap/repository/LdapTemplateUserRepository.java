@@ -15,6 +15,7 @@ import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.support.LdapNameBuilder;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.naming.Name;
@@ -28,7 +29,8 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
-public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
+@Repository
+public class LdapTemplateUserRepository {
 
     public static final String OBJECT_CLASS = "objectClass";
 
@@ -36,21 +38,18 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
     LdapUserAttributesMapper attributesMapper;
     LdapUserContextMapper contextMapper;
 
-    @Override
     public List<String> getAllUserNames() {
         return ldapTemplate.search(query().
                         where(OBJECT_CLASS).is("user"),
                 (AttributesMapper<String>) attributes -> attributes.get("givenName").get().toString());
     }
 
-    @Override
     public List<LdapUser> getAllUsers() {
         return ldapTemplate.search(query()
                         .where(OBJECT_CLASS).is("user"),
                 contextMapper);
     }
 
-    @Override
     public List<LdapUser> getAllUsersBySureName(String sureName) {
         return ldapTemplate.search(query()
                         .where(OBJECT_CLASS).is("user")
@@ -58,7 +57,6 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
                 attributesMapper);
     }
 
-    @Override
     public Optional<LdapUser> lookupByDn(String dn) {
         try {
             return Optional.of(ldapTemplate.lookup(dn, attributesMapper));
@@ -69,7 +67,6 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         }
     }
 
-    @Override
     public Optional<LdapUser> lookupByDnWithContextMapper(String dn) {
         try {
             return Optional.of(ldapTemplate.lookup(dn, contextMapper));
@@ -80,7 +77,6 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         }
     }
 
-    @Override
     public void create(UserCreateDto dto) {
         Name dn = buildDn(dto);
         Attributes attributes = buildAttributes(dto);
@@ -88,7 +84,6 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
     }
 
     //предпочтительный способ создания новой записи
-    @Override
     public void createWithDirContextAdapter(String dn, UserCreateDto dto) {
         LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
         DirContextAdapter ctx = new DirContextAdapter(ldapName);
@@ -98,19 +93,16 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         ldapTemplate.bind(ctx);
     }
 
-    @Override
     public void delete(String dn) {
         LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
         ldapTemplate.unbind(ldapName);
     }
 
-    @Override
     public void rebind(String dn, UserCreateDto dto) {
         LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
         ldapTemplate.rebind(ldapName, null, buildAttributes(dto));
     }
 
-    @Override
     public void updateAttribute(String dn, AttributeDto attribute) {
         LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
         Attribute newAttribute = new BasicAttribute(attribute.getAttributeName(), attribute.getAttributeValue());
@@ -119,7 +111,6 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
     }
 
     //предпочтительный способ обновления
-    @Override
     public void updateWithDirContextOperations(String dn, UserCreateDto dto) {
         LdapName ldapName = LdapNameBuilder.newInstance(dn).build();
         DirContextOperations context = ldapTemplate.lookupContext(ldapName);
@@ -214,4 +205,26 @@ public class LdapTemplateRepositoryImpl implements LdapTemplateRepository {
         ctx.setAttributeValue("enabled", dto.getEnabled());
     }
 
+    //ODM - Object-Directory Mapping
+
+    public Optional<LdapUser> findOneByGuid(String guid) {
+        return Optional.of(ldapTemplate.findOne(
+                query()
+                        .where("ObjectGUID")
+                        .is(guid),
+                LdapUser.class));
+    }
+
+    public List<LdapUser> findAll() {
+        return ldapTemplate.findAll(LdapUser.class);
+    }
+
+    public List<LdapUser> findAllByFirsName(String firstName) {
+        return ldapTemplate.find(
+                query()
+                        .where("GivenName")
+                        .is(firstName),
+                LdapUser.class
+        );
+    }
 }

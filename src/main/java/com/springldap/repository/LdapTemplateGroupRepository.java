@@ -8,15 +8,15 @@ import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.BaseLdapNameAware;
 import org.springframework.ldap.support.LdapNameBuilder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.naming.Name;
 import javax.naming.ldap.LdapName;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
-@Component
-public class LdapGroupRepository implements BaseLdapNameAware {
+@Repository
+public class LdapTemplateGroupRepository implements BaseLdapNameAware {
 
     LdapTemplate ldapTemplate;
     @NonFinal

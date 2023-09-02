@@ -119,9 +119,6 @@ public class LdapUser {
     @Attribute(name = "Title")
     String title;
 
-    @Attribute(name = "userAccountControl")
-    String userAccountControl;
-
     @Attribute(name = "Enabled")
     String enabled;
 
