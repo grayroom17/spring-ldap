@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("ldap-odm-users")
-public class LdapOdmController {
+public class LdapOdmUserController {
 
     LdapOdmUserService ldapOdmUserService;
 

@@ -22,10 +22,6 @@ public class LdapTemplateGroupRepository implements BaseLdapNameAware {
     @NonFinal
     LdapName baseLdapPath;
 
-    public void setBaseLdapPath(LdapName baseLdapPath) {
-        this.baseLdapPath = baseLdapPath;
-    }
-
     public void addMemberToGroup(String groupName, String userFullName) {
         Name groupDn = buildGroupDn(groupName);
         Name userDn = buildPersonDn(userFullName);
@@ -44,6 +40,10 @@ public class LdapTemplateGroupRepository implements BaseLdapNameAware {
         ctx.removeAttributeValue("member", userDn.toString());
 
         ldapTemplate.modifyAttributes(ctx);
+    }
+
+    public void setBaseLdapPath(LdapName baseLdapPath) {
+        this.baseLdapPath = baseLdapPath;
     }
 
     private Name buildGroupDn(String groupName) {
