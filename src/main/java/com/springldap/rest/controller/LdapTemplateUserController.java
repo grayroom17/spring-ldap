@@ -80,19 +80,24 @@ public class LdapTemplateUserController {
 
     //ODM - Object-Directory Mapping
 
-    @GetMapping("find-one-by-guid")
+    @GetMapping("/find-one-by-guid")
     UserGetDto findOneByGuid(@RequestParam("guid") String guid) {
         return ldapTemplateUserService.findOneByGuid(guid);
     }
 
-    @GetMapping("find-all")
+    @GetMapping("/find-all")
     List<UserGetDto> findAll() {
         return ldapTemplateUserService.findAll();
     }
 
-    @GetMapping("find-all-by-first-name")
+    @GetMapping("/find-all-by-first-name")
     List<UserGetDto> findAllByFirsName(String firstName) {
         return ldapTemplateUserService.findAllByFirsName(firstName);
+    }
+
+    @GetMapping("/find-all-in-base")
+    List<UserGetDto> findAllInBase(String base) {
+        return ldapTemplateUserService.findAllInBase(base);
     }
 
 }
