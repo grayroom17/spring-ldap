@@ -227,4 +227,14 @@ public class LdapTemplateUserRepository {
                 LdapUser.class
         );
     }
+
+    public List<LdapUser> findAllInBase(String base) {
+        return ldapTemplate.find(
+                query()
+                        .base(base)
+                        .where(OBJECT_CLASS)
+                        .is("user"),
+                LdapUser.class);
+    }
+
 }

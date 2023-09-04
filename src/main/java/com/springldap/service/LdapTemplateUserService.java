@@ -86,4 +86,9 @@ public class LdapTemplateUserService {
     public List<UserGetDto> findAllByFirsName(String firstName) {
         return ldapUserMapper.toGetDtoList(ldapTemplateUserRepository.findAllByFirsName(firstName));
     }
+
+    public List<UserGetDto> findAllInBase(String base) {
+        return ldapUserMapper.toGetDtoList(ldapTemplateUserRepository.findAllInBase(base));
+    }
+
 }
