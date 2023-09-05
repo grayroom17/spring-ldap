@@ -100,4 +100,9 @@ public class LdapTemplateUserController {
         return ldapTemplateUserService.findAllInBase(base);
     }
 
+    @GetMapping("/find-all-by-full-name")
+    List<UserGetDto> findAllByFullName(@RequestParam("name") String name) {
+        return ldapTemplateUserService.findAllByFullName(name);
+    }
+
 }

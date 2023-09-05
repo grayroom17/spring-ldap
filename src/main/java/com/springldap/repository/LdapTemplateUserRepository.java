@@ -50,6 +50,13 @@ public class LdapTemplateUserRepository {
                 contextMapper);
     }
 
+    public List<LdapUser> findAllByFullName(String fullName) {
+        return ldapTemplate.search(
+                query()
+                        .filter("(&(objectClass=user)(name=%s))".formatted(fullName)),
+                contextMapper);
+    }
+
     public List<LdapUser> getAllUsersBySureName(String sureName) {
         return ldapTemplate.search(query()
                         .where(OBJECT_CLASS).is("user")

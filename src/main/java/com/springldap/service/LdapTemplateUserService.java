@@ -32,6 +32,10 @@ public class LdapTemplateUserService {
         return ldapUserMapper.toGetDtoList(ldapTemplateUserRepository.getAllUsers());
     }
 
+    public List<UserGetDto> findAllByFullName(String fullName) {
+        return ldapUserMapper.toGetDtoList(ldapTemplateUserRepository.findAllByFullName(fullName));
+    }
+
     public List<UserGetDto> getAllLdapUsersBySureName(String sureName) {
         return ldapUserMapper.toGetDtoList(ldapTemplateUserRepository.getAllUsersBySureName(sureName));
     }
