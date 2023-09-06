@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.ldap.InvalidNameException;
 import org.springframework.ldap.NameNotFoundException;
-import org.springframework.ldap.core.AttributesMapper;
-import org.springframework.ldap.core.DirContextAdapter;
-import org.springframework.ldap.core.DirContextOperations;
-import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.ldap.core.*;
 import org.springframework.ldap.support.LdapNameBuilder;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
@@ -125,6 +122,15 @@ public class LdapTemplateUserRepository {
         mapToContext(dto, context);
 
         ldapTemplate.modifyAttributes(context);
+    }
+
+    public List search(final Name base, final String filter, final String[] params, final SearchControls controls) {
+        SearchExecutor executor = ctx -> ctx.search(base, filter, params, controls);
+
+        CollectingNameClassPairCallbackHandler handler = new ContextMapperCallbackHandler(contextMapper);
+
+        ldapTemplate.search(executor, handler);
+        return handler.getList();
     }
 
     private Name buildDn(UserCreateDto dto) {
