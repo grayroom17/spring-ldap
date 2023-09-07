@@ -105,4 +105,9 @@ public class LdapTemplateUserController {
         return ldapTemplateUserService.findAllByFullName(name);
     }
 
+    @GetMapping("/test-custom-search")
+    List<UserGetDto> testCustomSearch() {
+        return ldapTemplateUserService.testCustomSearch();
+    }
+
 }

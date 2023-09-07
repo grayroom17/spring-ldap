@@ -21,6 +21,7 @@ import javax.naming.ldap.LdapName;
 import java.util.List;
 import java.util.Optional;
 
+import static javax.naming.directory.SearchControls.SUBTREE_SCOPE;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
@@ -124,10 +125,17 @@ public class LdapTemplateUserRepository {
         ldapTemplate.modifyAttributes(context);
     }
 
-    public List search(final Name base, final String filter, final String[] params, final SearchControls controls) {
+    public List<LdapUser> customSearch() {
+        LdapName base = LdapNameBuilder.newInstance("ou=Users,ou=Moscow,ou=Russia,ou=COMPANY").build();
+        String filter = "(&(objectClass=user)(GivenName={0}))";
+        String[] params = {"Petr"};
+        SearchControls controls = new SearchControls();
+        controls.setSearchScope(SUBTREE_SCOPE);
+        controls.setReturningObjFlag(true);
+
         SearchExecutor executor = ctx -> ctx.search(base, filter, params, controls);
 
-        CollectingNameClassPairCallbackHandler handler = new ContextMapperCallbackHandler(contextMapper);
+        CollectingNameClassPairCallbackHandler<LdapUser> handler = new ContextMapperCallbackHandler<>(contextMapper);
 
         ldapTemplate.search(executor, handler);
         return handler.getList();
