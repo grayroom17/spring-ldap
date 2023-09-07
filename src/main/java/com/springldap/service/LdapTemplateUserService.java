@@ -95,4 +95,8 @@ public class LdapTemplateUserService {
         return ldapUserMapper.toGetDtoList(ldapTemplateUserRepository.findAllInBase(base));
     }
 
+    public List<UserGetDto> testCustomSearch() {
+        return ldapUserMapper.toGetDtoList(ldapTemplateUserRepository.customSearch());
+    }
+
 }
