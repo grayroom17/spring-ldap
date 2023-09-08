@@ -99,4 +99,8 @@ public class LdapTemplateUserService {
         return ldapUserMapper.toGetDtoList(ldapTemplateUserRepository.customSearch());
     }
 
+    public UserGetDto testCustomLookupLink() {
+        return ldapUserMapper.toGetDto(ldapTemplateUserRepository.customLookupLink());
+    }
+
 }
