@@ -110,4 +110,9 @@ public class LdapTemplateUserController {
         return ldapTemplateUserService.testCustomSearch();
     }
 
+    @GetMapping("/test-custom-lookup-link")
+    UserGetDto testCustomLookupLink() {
+        return ldapTemplateUserService.testCustomLookupLink();
+    }
+
 }

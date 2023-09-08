@@ -141,6 +141,16 @@ public class LdapTemplateUserRepository {
         return handler.getList();
     }
 
+    public LdapUser customLookupLink() {
+        LdapName name = LdapNameBuilder.newInstance("cn=Andrey Motorin,ou=Users,ou=Moscow,ou=Russia,ou=COMPANY").build();
+        ContextExecutor<LdapUser> executor = ctx -> {
+            DirContextAdapter context = (DirContextAdapter) ctx.lookupLink(name);
+            return contextMapper.doMapFromContext(context);
+        };
+
+        return ldapTemplate.executeReadOnly(executor);
+    }
+
     private Name buildDn(UserCreateDto dto) {
         return LdapNameBuilder.newInstance("")
                 .add("cn", dto.getCommonName())
