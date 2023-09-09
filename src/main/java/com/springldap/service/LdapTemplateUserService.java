@@ -103,4 +103,8 @@ public class LdapTemplateUserService {
         return ldapUserMapper.toGetDto(ldapTemplateUserRepository.customLookupLink());
     }
 
+    public List<UserGetDto> testDirContextProcessor() {
+        return ldapUserMapper.toGetDtoList(ldapTemplateUserRepository.testDirContextProcessor());
+    }
+
 }

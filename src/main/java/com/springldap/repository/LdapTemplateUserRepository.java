@@ -8,6 +8,7 @@ import com.springldap.rest.dto.UserCreateDto;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ldap.InvalidNameException;
 import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.core.*;
@@ -27,6 +28,7 @@ import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
+@Slf4j
 @Repository
 public class LdapTemplateUserRepository {
 
@@ -149,6 +151,28 @@ public class LdapTemplateUserRepository {
         };
 
         return ldapTemplate.executeReadOnly(executor);
+    }
+
+    public List<LdapUser> testDirContextProcessor() {
+        LdapName base = LdapNameBuilder.newInstance("ou=Users,ou=Moscow,ou=Russia,ou=COMPANY").build();
+        String filter = "(objectClass=user)";
+        SearchControls controls = new SearchControls();
+        controls.setReturningObjFlag(true);
+        controls.setSearchScope(SUBTREE_SCOPE);
+
+        DirContextProcessor processor = new DirContextProcessor() {
+            @Override
+            public void preProcess(DirContext ctx) {
+                log.info("Before search");
+            }
+
+            @Override
+            public void postProcess(DirContext ctx) {
+                log.info("After search");
+            }
+        };
+
+        return ldapTemplate.search(base, filter, controls, contextMapper, processor);
     }
 
     private Name buildDn(UserCreateDto dto) {
