@@ -1,12 +1,14 @@
 package com.springldap.rest.controller;
 
 import com.springldap.rest.dto.AttributeDto;
+import com.springldap.rest.dto.PageDto;
 import com.springldap.rest.dto.UserCreateDto;
 import com.springldap.rest.dto.UserGetDto;
 import com.springldap.service.LdapTemplateUserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -113,6 +115,16 @@ public class LdapTemplateUserController {
     @GetMapping("/test-dir-context-processor")
     List<UserGetDto> testCustomLookupLink() {
         return ldapTemplateUserService.testDirContextProcessor();
+    }
+
+    @GetMapping("/page")
+    List<UserGetDto> testCustomLookupLink(@ParameterObject PageDto page) {
+        return ldapTemplateUserService.getUsersPage(page);
+    }
+
+    @GetMapping("/partition")
+    List<UserGetDto> findAllPartition() {
+        return ldapTemplateUserService.findAllPartition();
     }
 
 }
