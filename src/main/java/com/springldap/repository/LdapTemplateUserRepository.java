@@ -4,6 +4,7 @@ import com.springldap.domain.entity.LdapUser;
 import com.springldap.mapper.LdapUserAttributesMapper;
 import com.springldap.mapper.LdapUserContextMapper;
 import com.springldap.rest.dto.AttributeDto;
+import com.springldap.rest.dto.PageDto;
 import com.springldap.rest.dto.UserCreateDto;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,11 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ldap.InvalidNameException;
 import org.springframework.ldap.NameNotFoundException;
+import org.springframework.ldap.control.PagedResultsCookie;
+import org.springframework.ldap.control.PagedResultsDirContextProcessor;
 import org.springframework.ldap.core.*;
+import org.springframework.ldap.core.support.LdapContextSource;
+import org.springframework.ldap.core.support.SingleContextSource;
 import org.springframework.ldap.support.LdapNameBuilder;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,6 +24,8 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.naming.Name;
 import javax.naming.directory.*;
 import javax.naming.ldap.LdapName;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +42,7 @@ public class LdapTemplateUserRepository {
     public static final String OBJECT_CLASS = "objectClass";
 
     LdapTemplate ldapTemplate;
+    LdapContextSource ldapContextSource;
     LdapUserAttributesMapper attributesMapper;
     LdapUserContextMapper contextMapper;
 
@@ -173,6 +181,51 @@ public class LdapTemplateUserRepository {
         };
 
         return ldapTemplate.search(base, filter, controls, contextMapper, processor);
+    }
+
+    public List<LdapUser> getUsersPage(PageDto page) {
+        SearchControls searchControls = new SearchControls();
+        searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+
+        PagedResultsDirContextProcessor processor = new PagedResultsDirContextProcessor(page.getPageSize());
+
+        return SingleContextSource.doWithSingleContext(
+                ldapContextSource, operations -> {
+                    List<LdapUser> users = new LinkedList<>();
+
+                    do {
+                        List<LdapUser> result = operations.search(
+                                "ou=Users,ou=Moscow,ou=Russia,ou=COMPANY",
+                                "(&(objectClass=user))",
+                                searchControls,
+                                contextMapper,
+                                processor);
+                        users.addAll(result);
+                    } while (processor.hasMore());
+
+                    return users;
+                });
+    }
+
+    public List<LdapUser> findAllPartition() {
+        List<LdapUser> result = new ArrayList<>();
+
+        SearchControls searchControls = new SearchControls();
+        searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+
+        PagedResultsCookie cookie = null;
+        do {
+            PagedResultsDirContextProcessor processor = new PagedResultsDirContextProcessor(100, cookie);
+            result.addAll(ldapTemplate.search(
+                    "",
+                    "(&(objectClass=user))",
+                    searchControls,
+                    contextMapper,
+                    processor));
+            cookie = processor.getCookie();
+        } while (cookie != null && cookie.getCookie() != null);
+
+        return result;
     }
 
     private Name buildDn(UserCreateDto dto) {

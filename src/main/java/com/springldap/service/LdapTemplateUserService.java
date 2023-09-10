@@ -4,6 +4,7 @@ import com.springldap.domain.entity.LdapUser;
 import com.springldap.mapper.LdapUserMapper;
 import com.springldap.repository.LdapTemplateUserRepository;
 import com.springldap.rest.dto.AttributeDto;
+import com.springldap.rest.dto.PageDto;
 import com.springldap.rest.dto.UserCreateDto;
 import com.springldap.rest.dto.UserGetDto;
 import lombok.AccessLevel;
@@ -105,6 +106,14 @@ public class LdapTemplateUserService {
 
     public List<UserGetDto> testDirContextProcessor() {
         return ldapUserMapper.toGetDtoList(ldapTemplateUserRepository.testDirContextProcessor());
+    }
+
+    public List<UserGetDto> getUsersPage(PageDto page) {
+        return ldapUserMapper.toGetDtoList(ldapTemplateUserRepository.getUsersPage(page));
+    }
+
+    public List<UserGetDto> findAllPartition() {
+        return ldapUserMapper.toGetDtoList(ldapTemplateUserRepository.findAllPartition());
     }
 
 }
