@@ -10,17 +10,23 @@ import com.springldap.rest.dto.UserGetDto;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.ldap.core.support.LdapContextSource;
+import org.springframework.ldap.support.LdapUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.naming.directory.DirContext;
 import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public class LdapTemplateUserService {
 
+    LdapContextSource ldapContextSource;
     LdapTemplateUserRepository ldapTemplateUserRepository;
     LdapUserMapper ldapUserMapper;
 
@@ -114,6 +120,21 @@ public class LdapTemplateUserService {
 
     public List<UserGetDto> findAllPartition() {
         return ldapUserMapper.toGetDtoList(ldapTemplateUserRepository.findAllPartition());
+    }
+
+    public boolean authenticate(String userDn, String credentials) {
+        DirContext ctx = null;
+        try {
+            ctx = ldapContextSource.getContext(userDn, credentials);
+            return true;
+        } catch (Exception e) {
+            // Context creation failed - authentication did not succeed
+            log.error("Login failed", e);
+            return false;
+        } finally {
+            // It is imperative that the created DirContext instance is always closed
+            LdapUtils.closeContext(ctx);
+        }
     }
 
 }
