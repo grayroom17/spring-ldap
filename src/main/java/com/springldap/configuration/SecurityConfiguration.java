@@ -7,14 +7,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfiguration {
 
-    @Value("spring.ldap.urls")
+    @Value("${spring.ldap.urls}")
     String ldapUrl;
+    @Value("${spring.ldap.base}")
+    String base;
 
 
     @Bean
@@ -29,14 +30,18 @@ public class SecurityConfiguration {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .ldapAuthentication()
-                .userDnPatterns("uid={0},ou=people")
-//                .groupSearchBase("ou=groups")
+                .userDnPatterns("CN={0},OU=Users,OU=Moscow,OU=Russia,OU=COMPANY",
+                        "CN={0},OU=Terminated,OU=Service,OU=Moscow,OU=Russia,OU=COMPANY")
+                .groupSearchBase("")
                 .contextSource()
-                .url(ldapUrl)
+                .managerDn("cn=admin,dc=spring-ldap,dc=com")
+                .managerPassword("password")
+                .url(ldapUrl + "/" + base)
                 .and()
                 .passwordCompare()
-                .passwordEncoder(new BCryptPasswordEncoder())
-                .passwordAttribute("userPassword");
+//                .passwordEncoder(new BCryptPasswordEncoder())
+                .passwordAttribute("userPassword")
+        ;
     }
 
 }

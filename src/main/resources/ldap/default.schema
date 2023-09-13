@@ -119,4 +119,4 @@ objectclass ( 2.25.128424792425578037463837247958458780603.20
    STRUCTURAL
    MAY  (CanonicalName $ objectGUID $ UserPrincipalName $ OtherName $ MobilePhone $ Country $ State $ City $ Company
          $ Organization $ Division $ Department $ Office $ EmployeeID $ mailNickname $ OfficePhone $ ipPhone
-         $ SamAccountName $ Enabled $ name $ telephoneNumber $ StreetAddress $ distinguishedName) )
+         $ SamAccountName $ userPassword $ Enabled $ name $ telephoneNumber $ StreetAddress $ distinguishedName) )

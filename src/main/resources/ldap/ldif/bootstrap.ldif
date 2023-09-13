@@ -57,6 +57,7 @@ objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
 objectClass: user
+userPassword: Anton
 #
 DisplayName: Anton Kolchin
 Name: Anton Kolchin
@@ -102,6 +103,7 @@ objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
 objectClass: user
+userPassword: Andrey
 #
 DisplayName: Andrey Motorin
 Name: Andrey Motorin
@@ -145,6 +147,7 @@ objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
 objectClass: user
+userPassword: Ivan
 #
 DisplayName: Ivan Ivanov
 Name: Ivan Ivanov
@@ -188,6 +191,7 @@ objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
 objectClass: user
+userPassword: Petr
 #
 DisplayName: Petr Petrov
 Name: Petr Petrov
@@ -231,6 +235,7 @@ objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
 objectClass: user
+userPassword: Fedor
 #
 DisplayName: Fedor Fedorov
 Name: Fedor Fedorov
@@ -286,6 +291,7 @@ objectClass: person
 objectClass: organizationalPerson
 objectClass: inetOrgPerson
 objectClass: user
+userPassword: John
 #
 DisplayName: John Dow
 Name: John Dow
