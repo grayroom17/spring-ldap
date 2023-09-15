@@ -26,6 +26,15 @@ spring:
     base: dc=spring-ldap,dc=com
     username: cn=admin,dc=spring-ldap,dc=com
     password: password
+#    embedded:
+##      validation:
+##        schema: classpath:ldap/default.schema
+#      ldif: classpath:ldap/ldif/embedded/embedded.ldif
+#      base-dn: dc=springframework,dc=org
+#      credential:
+#        username: uid=ben,ou=people
+#        password: $2a$10$c6bSeWPhg06xB1lvmaWNNe4NROmZiSpYhlocU/98HNr2MhIOiSt36
+#      port: 5389
 
   liquibase:
     enabled: true
@@ -38,4 +47,4 @@ springdoc:
 
 logging:
   level:
-    root: debug
+    root: info
