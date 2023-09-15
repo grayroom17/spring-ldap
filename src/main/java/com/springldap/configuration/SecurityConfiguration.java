@@ -13,9 +13,9 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     @Value("${spring.ldap.urls}")
-    String ldapUrl;
+    String ldapUrl = "ldap://localhost:5389";
     @Value("${spring.ldap.base}")
-    String base;
+    String base = "dc=springframework,dc=org";
 
 
     @Bean

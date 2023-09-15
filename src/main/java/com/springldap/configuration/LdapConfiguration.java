@@ -9,7 +9,7 @@ import org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor;
 public class LdapConfiguration {
 
     @Value("${spring.ldap.base}")
-    private String baseDn;
+    private String baseDn = "dc=springframework,dc=org";
 
     @Bean
     public BaseLdapPathBeanPostProcessor ldapPathBeanPostProcessor() {
